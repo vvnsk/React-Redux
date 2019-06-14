@@ -17,7 +17,7 @@ class BooksPage extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.dispatch(bookActions.createBook(this.state.book));
+    this.props.createBook(this.state.book);
   };
 
   render() {
@@ -40,8 +40,8 @@ class BooksPage extends React.Component {
 }
 
 BooksPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  books: PropTypes.array.isRequired
+  books: PropTypes.array.isRequired,
+  createBook: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -50,4 +50,13 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(BooksPage);
+function mapDispatchToProps(dispatch) {
+  return {
+    createBook: book => dispatch(bookActions.createBook(book))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BooksPage);

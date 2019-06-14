@@ -31,17 +31,17 @@ class BooksPage extends React.Component {
           value={this.state.book.title}
         />
         <input type="submit" value="Save" />
-        {this.props.books.map(book => {
-          <div key={book.title}>{book.title}</div>;
-        })}
+        {this.props.books.map(book => (
+          <div key={book.title}>{book.title}</div>
+        ))}
       </form>
     );
   }
 }
 
 BooksPage.propTypes = {
-  books: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  books: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {

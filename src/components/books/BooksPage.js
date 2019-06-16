@@ -5,37 +5,19 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 
 class BooksPage extends React.Component {
-  state = {
-    book: {
-      title: ""
-    }
-  };
-
-  handleChange = event => {
-    const book = { ...this.state.book, title: event.target.value };
-    this.setState({ book });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.actions.createBook(this.state.book);
-  };
-
+  componentDidMount() {
+    this.props.actions.loadBooks().catch(error => {
+      alert("Loading courses failed" + error);
+    });
+  }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
         <h2>Books</h2>
-        <h3>Add Book</h3>
-        <input
-          type="text"
-          onChange={this.handleChange}
-          value={this.state.book.title}
-        />
-        <input type="submit" value="Save" />
         {this.props.books.map(book => (
           <div key={book.title}>{book.title}</div>
         ))}
-      </form>
+      </>
     );
   }
 }

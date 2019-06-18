@@ -1,10 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { loadBooks } from "../../redux/actions/bookActions";
+import { loadBooks, saveBook } from "../../redux/actions/bookActions";
 import { loadAuthors } from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
+import BookForm from "./BookForm";
+import { newBook } from "../../../tools/mockData";
 
-function ManageBookPage({ books, authors, loadAuthors, loadBooks }) {
+function ManageBookPage({
+  books,
+  authors,
+  loadAuthors,
+  loadBooks,
+  saveBook,
+  history,
+  ...props
+}) {
+  const [book, setBook] = useState({ ...props.book });
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     if (books.length === 0) {
       loadBooks().catch(error => {
@@ -19,22 +32,45 @@ function ManageBookPage({ books, authors, loadAuthors, loadBooks }) {
     }
   }, []);
 
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setBook(prevBook => ({
+      ...prevBook,
+      [name]: name === "authorId" ? parseInt(value, 10) : value
+    }));
+  }
+
+  function handleSave(event) {
+    event.preventDefault();
+    saveBook(book).then(() => {
+      history.push("/books");
+    });
+  }
+
   return (
-    <>
-      <h2>Manage Book</h2>
-    </>
+    <BookForm
+      book={book}
+      errors={errors}
+      authors={authors}
+      onChange={handleChange}
+      onSave={handleSave}
+    />
   );
 }
 
 ManageBookPage.propTypes = {
   authors: PropTypes.array.isRequired,
+  book: PropTypes.object.isRequired,
   books: PropTypes.array.isRequired,
   loadBooks: PropTypes.func.isRequired,
-  loadAuthors: PropTypes.func.isRequired
+  loadAuthors: PropTypes.func.isRequired,
+  saveBook: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
+    book: newBook,
     books: state.books,
     authors: state.authors
   };
@@ -42,7 +78,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   loadBooks,
-  loadAuthors
+  loadAuthors,
+  saveBook
 };
 
 export default connect(

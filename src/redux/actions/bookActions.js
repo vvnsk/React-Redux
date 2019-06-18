@@ -1,12 +1,16 @@
 import * as types from "./actionTypes";
 import * as bookApi from "../../api/bookApi";
 
-export function createBook(book) {
-  return { type: types.CREATE_BOOK, book };
-}
-
 export function loadBookSuccess(books) {
   return { type: types.LOAD_BOOKS_SUCCESS, books };
+}
+
+export function createBookSuccess(course) {
+  return { type: types.CREATE_BOOK_SUCCESS, course };
+}
+
+export function updateBookSuccess(course) {
+  return { type: types.UPDATE_BOOK_SUCCESS, course };
 }
 
 export function loadBooks() {
@@ -15,6 +19,22 @@ export function loadBooks() {
       .getBooks()
       .then(books => {
         dispatch(loadBookSuccess(books));
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+}
+
+export function saveBook(book) {
+  //eslint-disable-next-line no-unused-vars
+  return function(dispatch, getState) {
+    return bookApi
+      .saveBook(book)
+      .then(savedBook => {
+        book.id
+          ? dispatch(updateBookSuccess(savedBook))
+          : dispatch(createBookSuccess(savedBook));
       })
       .catch(error => {
         throw error;

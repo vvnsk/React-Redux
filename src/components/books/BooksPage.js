@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import BookList from "./BookList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 
 class BooksPage extends React.Component {
   state = {
@@ -29,6 +30,15 @@ class BooksPage extends React.Component {
     }
   }
 
+  handleDeleteBook = async book => {
+    toast.success("Book deleted");
+    try {
+      await this.props.actions.deleteBook(book);
+    } catch (error) {
+      toast.error("Delete failed. " + error.message, { autoClose: false });
+    }
+  };
+
   render() {
     return (
       <>
@@ -46,7 +56,10 @@ class BooksPage extends React.Component {
               Add Book
             </button>
 
-            <BookList books={this.props.books} />
+            <BookList
+              onDeleteClick={this.handleDeleteBook}
+              books={this.props.books}
+            />
           </>
         )}
       </>
@@ -81,7 +94,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       loadBooks: bindActionCreators(bookActions.loadBooks, dispatch),
-      loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch)
+      loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch),
+      deleteBook: bindActionCreators(bookActions.deleteBook, dispatch)
     }
   };
 }

@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const BookList = ({ books }) => (
+const BookList = ({ books, onDeleteClick }) => (
   <table className="table">
     <thead>
       <tr>
         <th>Title</th>
         <th>Author</th>
         <th>Category</th>
+        <th />
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,14 @@ const BookList = ({ books }) => (
             </td>
             <td>{book.authorName}</td>
             <td>{book.category}</td>
+            <td>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => onDeleteClick(book)}
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         );
       })}
@@ -28,7 +37,8 @@ const BookList = ({ books }) => (
 );
 
 BookList.propTypes = {
-  books: PropTypes.array.isRequired
+  books: PropTypes.array.isRequired,
+  onDeleteClick: PropTypes.func.isRequired
 };
 
 export default BookList;

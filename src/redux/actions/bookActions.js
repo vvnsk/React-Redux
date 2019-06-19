@@ -5,12 +5,12 @@ export function loadBookSuccess(books) {
   return { type: types.LOAD_BOOKS_SUCCESS, books };
 }
 
-export function createBookSuccess(course) {
-  return { type: types.CREATE_BOOK_SUCCESS, course };
+export function createBookSuccess(book) {
+  return { type: types.CREATE_BOOK_SUCCESS, book };
 }
 
-export function updateBookSuccess(course) {
-  return { type: types.UPDATE_BOOK_SUCCESS, course };
+export function updateBookSuccess(book) {
+  return { type: types.UPDATE_BOOK_SUCCESS, book };
 }
 
 export function loadBooks() {

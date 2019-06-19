@@ -23,6 +23,8 @@ function ManageBookPage({
       loadBooks().catch(error => {
         alert("Loading books failed" + error);
       });
+    } else {
+      setBook({ ...props.book });
     }
 
     if (authors.length === 0) {
@@ -30,7 +32,7 @@ function ManageBookPage({
         alert("Loading authors failed" + error);
       });
     }
-  }, []);
+  }, [props.book]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -68,9 +70,17 @@ ManageBookPage.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
+export function getBookBySlug(books, slug) {
+  return books.find(book => book.slug === slug) || null;
+}
+
+function mapStateToProps(state, ownProps) {
+  const slug = ownProps.match.params.slug;
+  const book =
+    slug && state.books.length > 0 ? getBookBySlug(state.books, slug) : newBook;
+
   return {
-    book: newBook,
+    book,
     books: state.books,
     authors: state.authors
   };

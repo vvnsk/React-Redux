@@ -1,4 +1,5 @@
 export default {
   books: [],
-  authors: []
+  authors: [],
+  apiCallsInProgress: 0
 };

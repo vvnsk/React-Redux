@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import BookList from "./BookList";
 import { Redirect } from "react-router-dom";
+import Spinner from "../common/Spinner";
 
 class BooksPage extends React.Component {
   state = {
@@ -33,16 +34,21 @@ class BooksPage extends React.Component {
       <>
         {this.state.redirectToAddBookPage && <Redirect to="/book" />}
         <h2>Books</h2>
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <button
+              style={{ marginBottom: 20 }}
+              className="btn btn-primary add-book"
+              onClick={() => this.setState({ redirectToAddBookPage: true })}
+            >
+              Add Book
+            </button>
 
-        <button
-          style={{ marginBottom: 20 }}
-          className="btn btn-primary add-book"
-          onClick={() => this.setState({ redirectToAddBookPage: true })}
-        >
-          Add Book
-        </button>
-
-        <BookList books={this.props.books} />
+            <BookList books={this.props.books} />
+          </>
+        )}
       </>
     );
   }
@@ -51,7 +57,8 @@ class BooksPage extends React.Component {
 BooksPage.propTypes = {
   authors: PropTypes.array.isRequired,
   books: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
@@ -65,7 +72,8 @@ function mapStateToProps(state) {
               authorName: state.authors.find(a => a.id === book.authorId).name
             };
           }),
-    authors: state.authors
+    authors: state.authors,
+    loading: state.apiCallsInProgress > 0
   };
 }
 

@@ -6,6 +6,8 @@ import BooksPage from "./books/BooksPage";
 import ManageBookPage from "./books/ManageBookPage";
 import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/book" component={ManageBookPage} />
         <Route component={PageNotFound} />
       </Switch>
+      <ToastContainer autoClose={3000} hideProgressBar />
     </div>
   );
 }

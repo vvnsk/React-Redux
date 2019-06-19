@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
 import * as bookApi from "../../api/bookApi";
-import { beginApiCall } from "./apiStatusActions";
+import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function loadBookSuccess(books) {
   return { type: types.LOAD_BOOKS_SUCCESS, books };
@@ -23,6 +23,7 @@ export function loadBooks() {
         dispatch(loadBookSuccess(books));
       })
       .catch(error => {
+        dispatch(apiCallError(error));
         throw error;
       });
   };
@@ -40,6 +41,7 @@ export function saveBook(book) {
           : dispatch(createBookSuccess(savedBook));
       })
       .catch(error => {
+        dispatch(apiCallError(error));
         throw error;
       });
   };

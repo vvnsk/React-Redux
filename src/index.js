@@ -17,3 +17,17 @@ render(
   </ReduxProvider>,
   document.getElementById("app")
 );
+
+/**
+ *  Enhancements to do:
+ *  1. Author Management
+ *  2. Filter book list
+ *  3. Hide empty book list
+ *  4. Unsaved changes message
+ *  5. Enhance validation
+ *  6. Handle 404 on edit book
+ *  7. Show # books in Header
+ *  8. Pagination
+ *  9. Sort course table
+ *  10. Revert abandoned changes
+ **/

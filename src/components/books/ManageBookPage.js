@@ -8,7 +8,7 @@ import { newBook } from "../../../tools/mockData";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 
-function ManageBookPage({
+export function ManageBookPage({
   books,
   authors,
   loadAuthors,
